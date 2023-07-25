@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  bot:
+    build: .
+#    image: ibrohimpdp/translate_bot:latest
+    working_dir: /apps
+    container_name: uzb_english
+    restart: always
+    environment:
+      TOKEN:
+      DB_PASS: 11
+      DB_HOST: pg
+      DB_PORT: 5432
+    command: python uzb_english.py
+    depends_on:
+      - pg
+  pg:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: my_postgres
+    environment:
+      - POSTGRES_PASSWORD=11
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+volumes:
+  db_data:
